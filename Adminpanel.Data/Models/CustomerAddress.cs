@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Adminpanel.Data.Models
+namespace AdminPanel.Data.Models
 {
     public class CustomerAddress
     {

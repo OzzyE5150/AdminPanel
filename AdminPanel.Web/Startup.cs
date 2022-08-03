@@ -1,4 +1,5 @@
-﻿using Adminpanel.Data;
+﻿using AdminPanel.Data;
+using AdminPanel.Services.Product;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +23,8 @@ namespace AdminPanel.Web
                 opts.EnableDetailedErrors();
                 opts.UseNpgsql(Configuration.GetConnectionString("admin.dev"));
             });
+
+            services.AddTransient<IProductService, ProductService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

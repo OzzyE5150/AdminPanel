@@ -1,4 +1,4 @@
-﻿namespace Adminpanel.Data.Models
+﻿namespace AdminPanel.Data.Models
 {
     public class Customer
     {

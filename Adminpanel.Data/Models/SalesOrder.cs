@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Adminpanel.Data.Models
+namespace AdminPanel.Data.Models
 {
     public class SalesOrder
     {

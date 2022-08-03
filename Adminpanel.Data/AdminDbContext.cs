@@ -1,9 +1,9 @@
-﻿using Adminpanel.Data.Models;
+﻿using AdminPanel.Data.Models;
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Adminpanel.Data;
+namespace AdminPanel.Data;
 public class AdminDbContext : IdentityDbContext
 {
     public AdminDbContext() { }
