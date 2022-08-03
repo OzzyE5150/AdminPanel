@@ -2,7 +2,7 @@
 
 namespace AdminPanel.Web.Serialization
 {
-    public class ProductMapper
+    public static class ProductMapper
     {
         /// <summary>
         /// Maps a Product model to a ProductModel view model
