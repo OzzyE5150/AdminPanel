@@ -22,14 +22,33 @@ namespace AdminPanel.Services.Inventory
             _logger = logger;
         }
 
-        public void CreateSnapshot()
+        /// <summary>
+        /// Creates Snapshot record for given ProductInventory instance
+        /// </summary>
+        /// <param name="inventory"></param>
+        private void CreateSnapshot(ProductInventory inventory)
         {
-            throw new NotImplementedException();
+            var snapshot = new ProductInventorySnapshot
+            {
+                SnapshotTime = DateTime.UtcNow,
+                Id = inventory.Id,
+                Product = inventory.Product,
+                QuantityOnHand = inventory.QuantityOnHand
+            };
+            _db.Add(snapshot);
+            _db.SaveChanges();
         }
 
-        public ProductInventory GetByProductId(int id)
+        /// <summary>
+        /// Returns ProducInventory instance by id
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <returns></returns>
+        public ProductInventory GetByProductId(int productId)
         {
-            throw new NotImplementedException();
+           return _db.ProductsInventories
+                .Include(pi => pi.Product)
+                .FirstOrDefault(pi => pi.Product.Id == productId);
         }
 
         /// <summary>
@@ -44,9 +63,18 @@ namespace AdminPanel.Services.Inventory
                 .ToList();
         }
 
+        /// <summary>
+        /// Returns Snapshot history for the last 6h
+        /// </summary>
+        /// <returns></returns>
         public List<ProductInventorySnapshot> GetSnapshotHistory()
         {
-            throw new NotImplementedException();
+            var earliest = DateTime.UtcNow - TimeSpan.FromHours(6);
+
+            return _db.ProductInventorySnapshots
+                .Include(snap => snap.Product)
+                .Where(snap => snap.SnapshotTime > earliest && !snap.Product.IsArchived)
+                .ToList();
         }
 
         /// <summary>
@@ -68,7 +96,7 @@ namespace AdminPanel.Services.Inventory
                 inventory.QuantityOnHand += adjustment;
 
                 try { 
-                    CreateSnapshot(); 
+                    CreateSnapshot(inventory); 
                 } 
                 catch(Exception e) { 
                     _logger.LogError("Error creating inventory snapshot."); 
