@@ -1,4 +1,7 @@
 ﻿using AdminPanel.Data;
+using AdminPanel.Services.Customer;
+using AdminPanel.Services.Inventory;
+using AdminPanel.Services.Order;
 using AdminPanel.Services.Product;
 
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +29,9 @@ namespace AdminPanel.Web
             });
 
             services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<ICustomerService, CustomerService>();
+            services.AddTransient<IOrderService, OrderService>();
+            services.AddTransient<IInventoryService, InventoryService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
