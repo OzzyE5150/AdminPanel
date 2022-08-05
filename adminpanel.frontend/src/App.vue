@@ -1,10 +1,27 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view />
+  <div id="app">
+    <div class="app-menu">
+      <side-menu />
+    </div>
+    <div class="app-content">
+      <router-view />
+    </div>
+  </div>
 </template>
+
+<script lang="ts">
+import { Vue } from "vue-property-decorator";
+import { Options } from "vue-class-component";
+
+@Options({
+  name: "App",
+  components: { SideMenu },
+})
+export default class App extends Vue { 
+
+}
+</script>
+
 
 <style lang="scss">
 #app {
