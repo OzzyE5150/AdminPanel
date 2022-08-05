@@ -10,8 +10,9 @@
 </template>
 
 <script lang="ts">
-import { Vue } from "vue-property-decorator";
-import { Options } from "vue-class-component";
+// import { Vue } from "vue-property-decorator";
+import { Options, Vue } from "vue-class-component";
+import SideMenu from "@/components/SideMenu.vue";
 
 @Options({
   name: "App",
@@ -24,24 +25,33 @@ export default class App extends Vue {
 
 
 <style lang="scss">
+@import "@/scss/global.scss";
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
+  display: flex;
 
-nav {
-  padding: 30px;
+  .app-menu {
+    position: fixed;
+  }
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+  .app-content {
+    padding: 1.2rem;
+    width: 90%;
+    margin: 1rem auto 1rem $menu-width;
+    text-align: left;
   }
 }
+
+* {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
 </style>
