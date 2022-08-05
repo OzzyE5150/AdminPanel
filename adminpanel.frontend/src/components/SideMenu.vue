@@ -9,8 +9,9 @@ import { Vue } from "vue-property-decorator";
 import { Options } from "vue-class-component";
 
 @Options({
-  name: "SideMenu",
-  components: {},
+    components: {
+    SideMenu,
+  },
 })
 export default class SideMenu extends Vue {}
 </script>
