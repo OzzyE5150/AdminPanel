@@ -1,12 +1,39 @@
 <template>
 <div class="side-menu-container">
-  <img id="imgLogo" alt="Admin Panel logo" src="../assets/images/logo.png">
+  <router-link to="/">
+  <img 
+    id="imgLogo" 
+    alt="Admin Panel logo" 
+    src="../assets/images/logo.png"/>
+  </router-link>
   <h1>Management Portal</h1>
   <admin-button 
   id="menuInventory"
   :link="'/inventory'"
+  is-full-width
   >
     Inventory
+  </admin-button>
+  <admin-button 
+  id="menuCustomers"
+  :link="'/customers'"
+  is-full-width
+  >
+   Manage Customers
+  </admin-button>
+<admin-button 
+  id="menuInvoice"
+  :link="'/invoice'"
+  is-full-width
+  >
+    New Invoice
+  </admin-button>
+  <admin-button 
+  id="menuOrders"
+  :link="'/orders'"
+  is-full-width
+  >
+    Orders
   </admin-button>
 
 </div>

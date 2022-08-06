@@ -54,4 +54,9 @@ a {
   text-decoration: none;
 }
 
+hr {
+  border: 1px solid #000;
+  margin: 1rem 0;
+}
+
 </style>
