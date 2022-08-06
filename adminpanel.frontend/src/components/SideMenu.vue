@@ -4,7 +4,7 @@
   <img 
     id="imgLogo" 
     alt="Admin Panel logo" 
-    src="../assets/images/logo.png"/>
+    src="../assets/images/imac.png"/>
   </router-link>
   <h1>Management Portal</h1>
   <admin-button 
@@ -56,7 +56,9 @@ export default class SideMenu extends Vue {}
 @import "@/scss/global.scss";
 
 .side-menu-container {
-  background-color: #fcfcfc;
+  // background-color: #fcfcfc;
+  background-color: #162719;
+  color: #f2e8cf;
   height: 100vh;
   width: $menu-width;
   display: flex;

@@ -5,6 +5,15 @@
       </h1>
       <hr/>
 
+      <div class="inventory-actions">
+        <admin-button @click="showNewProductModal" id="addNewBtn">
+          Add New Item
+        </admin-button>
+        <admin-button @click="showShipmentModal" id="receiveShipmentBtn">
+          Receive Shipment
+        </admin-button>
+      </div>
+
       <table id="inventoryTable" class="table">
         <tr>
           <th>Item</th>
@@ -36,6 +45,12 @@
         </tr>
 
       </table>
+      <new-product-modal v-if="isNewProductVisible"/>
+      <shipment-modal 
+        v-if="isShipmentVisible" 
+        :inventory="inventory"
+        @close="closeModals"
+      />
   </div>
 </template>
 
@@ -43,10 +58,11 @@
 import {Options, Vue} from 'vue-class-component';
 import { IProductInventory } from "@/types/Product";
 import { AppConfig } from 'vue';
+import AdminButton from '../components/AdminButton.vue';
 
 
 @Options({
-        components: {}
+        components: { AdminButton }
     })
 
 export default class Inventory extends Vue {
@@ -56,6 +72,8 @@ export default class Inventory extends Vue {
         }
         return number.toFixed(2)+' €'
    }
+   isNewProductVisible: boolean = false;
+   isShipmentVisible: boolean = false;
   inventory: IProductInventory[] = [
     {
       id: 1,
@@ -88,6 +106,15 @@ export default class Inventory extends Vue {
         idealQuantiy: 100
     }
   ];
+
+  closeModals(){
+    this.isShipmentVisible = false;
+    this.isNewProductVisible = false;
+  }
+
+  showNewProductModal(){}
+  showShipmentModal(){}
+
 }
 
 </script>

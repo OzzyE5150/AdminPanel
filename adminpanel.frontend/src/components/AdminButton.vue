@@ -1,10 +1,21 @@
 <template>
   <div class="btn-link">
-      <button @click="visitRoute" 
+      <button 
+                        v-if="visitRoute"
+                        @click="visitRoute" 
                         :class="['admin-button', {'full-width' : isFullWidth}]"
+                        type="button"
                         >
           <slot></slot>
       </button>
+
+      <button
+        v-else
+        @click="onClick"
+        :class="['solar-button', {'full-width': isFullWidth}]"
+        type="button">
+        <slot></slot>
+        </button>
   </div>
 </template>
 
@@ -23,6 +34,10 @@ export default class AdminButton extends Vue {
     @Prop({required: false, type: Boolean, default: false})
     isFullWidth?: boolean;
 
+    onClick(){
+        this.$emit('button:click');
+    }
+
     visitRoute() {
         this.$router.push(this.link!);
     }
@@ -31,10 +46,12 @@ export default class AdminButton extends Vue {
 
 <style scoped lang="scss">
 @import "@/scss/global.scss";
+@import url('http://fonts.cdnfonts.com/css/esthetique');
 
     .admin-button{
+        font-family: 'esthetique', sans-serif;
         background: lighten($admin-blue, 10%);
-        color: white;
+        color: #f8f7f9;
         padding: 0.8rem;
         transition: background-color 0.5s;
         margin: 0.3rem 0.2rem;

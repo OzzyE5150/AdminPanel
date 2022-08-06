@@ -26,12 +26,14 @@ export default class App extends Vue {
 
 <style lang="scss">
 @import "@/scss/global.scss";
+@import url('http://fonts.cdnfonts.com/css/esthetique');
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  //font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'esthetique', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #091540;
   display: flex;
 
   .app-menu {
@@ -58,5 +60,7 @@ hr {
   border: 1px solid #000;
   margin: 1rem 0;
 }
-
+body{
+  background-color: #f8f7f9;
+}
 </style>
