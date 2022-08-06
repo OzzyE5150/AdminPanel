@@ -9,29 +9,29 @@
   <h1>Management Portal</h1>
   <admin-button 
   id="menuInventory"
-  :link="'/inventory'"
   is-full-width
+  @button:click="goToRoute('/inventory')"
   >
     Inventory
   </admin-button>
   <admin-button 
   id="menuCustomers"
-  :link="'/customers'"
   is-full-width
+  @button:click="goToRoute('/customers')"
   >
    Manage Customers
   </admin-button>
 <admin-button 
   id="menuInvoice"
-  :link="'/invoice'"
   is-full-width
+  @button:click="goToRoute('/invoice/new')"
   >
     New Invoice
   </admin-button>
   <admin-button 
   id="menuOrders"
-  :link="'/orders'"
   is-full-width
+  @button:click="goToRoute('/orders')"
   >
     Orders
   </admin-button>
@@ -49,7 +49,11 @@ import AdminButton from "@/components/AdminButton.vue"
     AdminButton,
   },
 })
-export default class SideMenu extends Vue {}
+export default class SideMenu extends Vue {
+  async goToRoute(route: string) {
+    await this.$router.push(route);
+  }
+}
 </script>
 
 <style scoped lang="scss">

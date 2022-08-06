@@ -1,21 +1,12 @@
 <template>
   <div class="btn-link">
       <button 
-                        v-if="visitRoute"
-                        @click="visitRoute" 
-                        :class="['admin-button', {'full-width' : isFullWidth}]"
-                        type="button"
-                        >
+          @click="onClick" 
+          :class="['admin-button', {'full-width' : isFullWidth}]"
+          type="button"
+          >
           <slot></slot>
       </button>
-
-      <button
-        v-else
-        @click="onClick"
-        :class="['solar-button', {'full-width': isFullWidth}]"
-        type="button">
-        <slot></slot>
-        </button>
   </div>
 </template>
 
@@ -28,8 +19,7 @@
         components: {}
     })
 export default class AdminButton extends Vue {
-    @Prop({required: false, type: String})
-    link?: string;
+    
 
     @Prop({required: false, type: Boolean, default: false})
     isFullWidth?: boolean;
@@ -38,9 +28,6 @@ export default class AdminButton extends Vue {
         this.$emit('button:click');
     }
 
-    visitRoute() {
-        this.$router.push(this.link!);
-    }
 }
 </script>
 
