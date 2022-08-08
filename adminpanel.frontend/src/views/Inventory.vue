@@ -27,7 +27,7 @@
           <td>
             {{item.product.name}}
           </td>
-          <td>
+          <td v-bind:class="`${applyColor(item.quantityOnHand, item.idealQuantity)}`">
             {{item.quantityOnHand}}
           </td>
           <td>
@@ -39,9 +39,10 @@
             </span>
             <span v-else>No</span>
           </td>
-          <div>
-                X
-            </div>
+          <td>
+          <div class="lni lni-cross-circle product-archive" @click="archiveProduct(item.product.id)">
+          </div>
+          </td>
         </tr>
 
       </table>
@@ -65,7 +66,6 @@ import AdminButton from '../components/AdminButton.vue';
 import { InventoryService } from '../services/inventory-service';
 import {ProductService} from '../services/product-service'
 import { IShipment } from "@/types/Shipment";
-// import { ProductService } from "@/services/product-service";
 import NewProductModal from "@/components/modals/NewProductModal.vue";
 import ShipmentModal from "@/components/modals/ShipmentModal.vue";
 import InventoryChart from "@/components/charts/InventoryChart.vue";
@@ -88,6 +88,20 @@ export default class Inventory extends Vue {
    isShipmentVisible: boolean = false;
 
   inventory: IProductInventory[] = [];
+
+  async archiveProduct(productId: number){
+    await productService.archive(productId)
+    await this.initialize
+  }
+
+  applyColor(current: number, target: number){
+    if(current <= 0){
+      return "red";
+    } if (Math.abs(target-current) > 8){
+      return "yellow";
+    }
+    return "green";
+  }
 
   closeModals(){
     this.isShipmentVisible = false;
@@ -122,6 +136,30 @@ export default class Inventory extends Vue {
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  @import "@/scss/global.scss";
 
+  .green {
+    font-weight: bold;
+    color: $admin-green;
+  }
+.yellow {
+    font-weight: bold;
+    color: $admin-yellow;
+  }
+  .red {
+    font-weight: bold;
+    color: $admin-red;
+  }
+  .inventory-actions{
+    display: flex;
+    margin-bottom: 0.8rem;
+  }
+  .product-archive{
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: $admin-red;
+    
+  }
 </style>

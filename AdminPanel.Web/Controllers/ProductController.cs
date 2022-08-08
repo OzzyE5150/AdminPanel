@@ -33,7 +33,10 @@ namespace AdminPanel.Web.Controllers
             var newProductResponse = _productService.CreateProduct(newProduct);
             return Ok(newProductResponse);
         }
-
+        /// <summary>
+        /// Returns all products
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("/api/product")]
         public ActionResult GetProduct() {
             _logger.LogInformation("Getting all products");
@@ -42,7 +45,11 @@ namespace AdminPanel.Web.Controllers
 
             return Ok(productViewModels);
         }
-
+        /// <summary>
+        /// Archives a product
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPatch("/api/product/{id}")]
         public ActionResult ArchiveProduct(int id)
         {

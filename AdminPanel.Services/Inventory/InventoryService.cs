@@ -35,7 +35,7 @@ namespace AdminPanel.Services.Inventory
                 Product = inventory.Product,
                 QuantityOnHand = inventory.QuantityOnHand
             };
-            _db.Add(snapshot);
+            _db.Update(snapshot);
             _db.SaveChanges();
         }
 

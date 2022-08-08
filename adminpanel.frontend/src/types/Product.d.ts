@@ -13,5 +13,5 @@ export interface IProductInventory {
     id: number;
     product: IProduct;
     quantityOnHand: number;
-    idealQuantiy: number;
+    idealQuantity: number;
 }
