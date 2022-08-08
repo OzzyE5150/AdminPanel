@@ -63,6 +63,7 @@ import { IProduct, IProductInventory } from "@/types/Product";
 import { AppConfig } from 'vue';
 import AdminButton from '../components/AdminButton.vue';
 import { InventoryService } from '../services/inventory-service';
+import {ProductService} from '../services/product-service'
 import { IShipment } from "@/types/Shipment";
 // import { ProductService } from "@/services/product-service";
 import NewProductModal from "@/components/modals/NewProductModal.vue";
@@ -70,6 +71,7 @@ import ShipmentModal from "@/components/modals/ShipmentModal.vue";
 import InventoryChart from "@/components/charts/InventoryChart.vue";
 
 const inventoryService = new InventoryService();
+const productService = new ProductService();
 
 @Options({
         components: { AdminButton, ShipmentModal, NewProductModal }
@@ -98,9 +100,10 @@ export default class Inventory extends Vue {
   showShipmentModal(){
     this.isShipmentVisible = true;
   }
-  saveNewProduct(newProduct: IProduct){
-    console.log("saveNewProduct:");
-    console.log(newProduct);
+  async saveNewProduct(newProduct: IProduct){
+    await productService.save(newProduct);
+    this.isNewProductVisible = false;
+    await this.initialize();
   }
   async saveNewShipment(shipment: IShipment){
      await inventoryService.updateInventoryQuantity(shipment);

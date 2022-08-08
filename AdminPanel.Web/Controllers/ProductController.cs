@@ -1,6 +1,6 @@
 ﻿using AdminPanel.Services.Product;
 using AdminPanel.Web.Serialization;
-
+using AdminPanel.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdminPanel.Web.Controllers
@@ -14,6 +14,24 @@ namespace AdminPanel.Web.Controllers
         {
             _logger = logger;
             _productService = productService;
+        }
+
+        /// <summary>
+        /// Adds a new product
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns></returns>
+        [HttpPost("/api/product")]
+        public ActionResult AddProduct([FromBody] ProductModel product)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            _logger.LogInformation("Adding product");
+            var newProduct = ProductMapper.SerializeProductModel(product);
+            var newProductResponse = _productService.CreateProduct(newProduct);
+            return Ok(newProductResponse);
         }
 
         [HttpGet("/api/product")]
