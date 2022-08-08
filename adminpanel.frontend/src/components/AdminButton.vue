@@ -36,9 +36,9 @@ export default class AdminButton extends Vue {
 @import url('http://fonts.cdnfonts.com/css/esthetique');
 
     .admin-button{
-        font-family: 'esthetique', sans-serif;
-        background: lighten($admin-blue, 10%);
-        color: #f8f7f9;
+        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        background: $admin-blue;//lighten($admin-blue, 10%);
+        color: #f5f5f5;
         padding: 0.8rem;
         transition: background-color 0.5s;
         margin: 0.3rem 0.2rem;
@@ -48,7 +48,7 @@ export default class AdminButton extends Vue {
         min-width: 100px;
         border: none;
         border-bottom: 2px solid darken($admin-blue, 20%);
-        border-radius: 3px;
+        border-radius: 7px;
 
         &:hover{
             background: lighten($admin-blue, 20%);

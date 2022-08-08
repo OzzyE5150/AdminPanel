@@ -45,10 +45,13 @@
         </tr>
 
       </table>
-      <new-product-modal v-if="isNewProductVisible"/>
+      <new-product-modal v-if="isNewProductVisible"
+      @save:product="saveNewProduct"
+      @close="closeModals"/>
       <shipment-modal 
         v-if="isShipmentVisible" 
         :inventory="inventory"
+        @save:shipment="saveNewShipment"
         @close="closeModals"
       />
   </div>
@@ -56,13 +59,20 @@
 
 <script lang="ts">
 import {Options, Vue} from 'vue-class-component';
-import { IProductInventory } from "@/types/Product";
+import { IProduct, IProductInventory } from "@/types/Product";
 import { AppConfig } from 'vue';
 import AdminButton from '../components/AdminButton.vue';
+import { InventoryService } from '../services/inventory-service';
+import { IShipment } from "@/types/Shipment";
+// import { ProductService } from "@/services/product-service";
+import NewProductModal from "@/components/modals/NewProductModal.vue";
+import ShipmentModal from "@/components/modals/ShipmentModal.vue";
+import InventoryChart from "@/components/charts/InventoryChart.vue";
 
+const inventoryService = new InventoryService();
 
 @Options({
-        components: { AdminButton }
+        components: { AdminButton, ShipmentModal, NewProductModal }
     })
 
 export default class Inventory extends Vue {
@@ -74,46 +84,36 @@ export default class Inventory extends Vue {
    }
    isNewProductVisible: boolean = false;
    isShipmentVisible: boolean = false;
-  inventory: IProductInventory[] = [
-    {
-      id: 1,
-      product: {
-        id: 1,
-        name: 'a product', 
-        description: 'hello world', 
-        price: 10,
-        createdOn: new Date(), 
-        updatedOn: new Date(),
-        isTaxable: true, 
-        isArchived: false
-        }, 
-        quantityOnHand: 100,
-        idealQuantiy: 100
-    },
-    {
-      id: 2,
-      product: {
-        id: 2,
-        name: 'some product', 
-        description: 'hello', 
-        price: 13,
-        createdOn: new Date(), 
-        updatedOn: new Date(),
-        isTaxable: true, 
-        isArchived: false
-        }, 
-        quantityOnHand: 70,
-        idealQuantiy: 100
-    }
-  ];
+
+  inventory: IProductInventory[] = [];
 
   closeModals(){
     this.isShipmentVisible = false;
     this.isNewProductVisible = false;
   }
 
-  showNewProductModal(){}
-  showShipmentModal(){}
+  showNewProductModal(){
+    this.isNewProductVisible = true;
+  }
+  showShipmentModal(){
+    this.isShipmentVisible = true;
+  }
+  saveNewProduct(newProduct: IProduct){
+    console.log("saveNewProduct:");
+    console.log(newProduct);
+  }
+  async saveNewShipment(shipment: IShipment){
+     await inventoryService.updateInventoryQuantity(shipment);
+    this.isShipmentVisible = false;
+    await this.initialize();
+  }
+  
+  async initialize(){
+    this.inventory = await inventoryService.getInventory();
+  }
+  async created(){
+    await this.initialize();
+  }
 
 }
 

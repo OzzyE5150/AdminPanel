@@ -62,7 +62,7 @@ export default class AdminModal extends Vue {
         align-items: center;
     }
     .modal {
-        background: #fff;
+        background: #212124;
         box-shadow: 2px 2px 20px 1px;
         overflow-x: auto;
         display: flex;
@@ -74,7 +74,7 @@ export default class AdminModal extends Vue {
         padding: 15px;
         display: flex;
         background-color: $admin-blue;
-        color: #f9f7f8;
+        color: #f5f5f5;
         font-size: 1.2rem;
         font-weight: bold;
         border-bottom: 1px solid #000;

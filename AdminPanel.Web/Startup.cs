@@ -5,6 +5,7 @@ using AdminPanel.Services.Order;
 using AdminPanel.Services.Product;
 
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Serialization;
 
 namespace AdminPanel.Web
 {
@@ -20,7 +21,14 @@ namespace AdminPanel.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddCors();
+            services.AddControllers().AddNewtonsoftJson(opts =>
+            {
+                opts.SerializerSettings.ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy()
+                };
+            });
 
             services.AddDbContext<AdminDbContext>(opts =>
             {
@@ -42,6 +50,15 @@ namespace AdminPanel.Web
             }
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseCors(builder => builder
+            .WithOrigins(
+                "http://localhost:8080",
+                "http://localhost:8081",
+                "http://localhost:8082")
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials()
+            );
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {

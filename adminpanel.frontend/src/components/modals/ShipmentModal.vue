@@ -37,10 +37,11 @@
     import { Prop } from "vue-property-decorator";
     import AdminButton from "../AdminButton.vue";
     import AdminModal from "./AdminModal.vue";
+    import { IShipment } from "@/types/Shipment";
     
 
     @Options({
-        components: { AdminButton }
+        components: { AdminButton, AdminModal }
     })
 
 export default class ShipmentModal extends Vue{
@@ -64,15 +65,15 @@ export default class ShipmentModal extends Vue{
         this.$emit("close");
     }
     save(){
-        // let shipment: IShipment ={
-        //     productId: this.selectedProduct.id,
-        //     adjustment: this.qtyReceived
-        // };
-        // this.$emit('save:shipment', shipment);
+        let shipment: IShipment ={
+            productId: this.selectedProduct.id,
+            adjustment: this.qtyReceived
+        };
+        this.$emit('save:shipment', shipment);
     }
 }
 </script>
 
-<style scoped> 
+<style scoped lang="scss"> 
 
 </style>
