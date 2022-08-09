@@ -55,7 +55,7 @@ namespace AdminPanel.Web.Serialization
         /// <returns></returns>
         private static List<SalesOrderItemModel> SerializeSalesOrderItems(IEnumerable<SalesOrderItem> orderItems)
         {
-            return orderItems.Select(item => new SalesOrderItemModel
+            return orderItems.Select(item => new SalesOrderItemModel()
             {
                 Id = item.Id,
                 Quantity = item.Quantity,

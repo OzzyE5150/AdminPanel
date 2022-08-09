@@ -31,7 +31,7 @@
             {{item.quantityOnHand}}
           </td>
           <td>
-            {{ euPriceFilter(item.product.price) }}
+            {{ usdPriceFilter(item.product.price) }}
           </td>
           <td>
             <span v-if="item.product.isTaxable">
@@ -78,11 +78,11 @@ const productService = new ProductService();
     })
 
 export default class Inventory extends Vue {
-  euPriceFilter(number: number){ 
+  usdPriceFilter(number: number){ 
     if(isNaN(number)){
           return '-';
         }
-        return number.toFixed(2)+' €'
+        return '$ '+number.toFixed(2)
    }
    isNewProductVisible: boolean = false;
    isShipmentVisible: boolean = false;

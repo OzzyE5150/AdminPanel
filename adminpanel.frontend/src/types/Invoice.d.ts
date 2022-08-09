@@ -1,6 +1,7 @@
 import { IProduct } from "./Product";
 
 export interface IInvoice{
+    
     customerId: number;
     lineItems: ILineItem[];
     createdOn: Date;

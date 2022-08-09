@@ -3,7 +3,7 @@
     /// <summary>
     /// View model for open SalesOrders
     /// </summary>
-    public interface InvoiceModel
+    public class InvoiceModel
     {
         public int Id { get; set; }
         public DateTime CreatedOn { get; set; }

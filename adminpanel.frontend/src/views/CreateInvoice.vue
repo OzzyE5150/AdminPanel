@@ -65,10 +65,81 @@
     </div>
     
     <div class="invoice-step" v-if="invoiceStep === 3">
-    
+     <h2>Step 3: Review and Submit</h2>
+      <admin-button @button:click="submitInvoice"> Submit Invoice </admin-button>
+     <hr />
+
+    <div class="invoice-step-detail" id="invoice" ref="invoice">
+        <div class="invoice-logo">
+            <img id="imgLogo" alt="Solar Coffe logo" src="../assets/images/logo.png">
+            <h3>1712 Code Lane</h3>
+            <h3>San Softwarino, CA 9000</h3>
+            <h3>USA</h3> 
+
+          <div class="invoice-order-list" v-if="lineItems.length">
+            <div class="invoice-header">
+              <h3>Invoice: {{ date(new Date()) }}</h3>
+              <h3>
+                Customer:
+                {{
+                  this.selectedCustomer.firstName +
+                    " " +
+                    this.selectedCustomer.lastName
+                }}
+              </h3>
+              <h3>
+                Address: {{ this.selectedCustomer.primaryAddress.addressLine1 }}
+              </h3>
+              <h3 v-if="this.selectedCustomer.primaryAddress.addressLine2">
+                {{ this.selectedCustomer.primaryAddress.addressLine2 }}
+              </h3>
+              <h3>
+                {{ this.selectedCustomer.primaryAddress.city }},
+                {{ this.selectedCustomer.primaryAddress.state }},
+                {{ this.selectedCustomer.primaryAddress.postalCode }}
+              </h3>
+              <h3>
+                {{ this.selectedCustomer.primaryAddress.country }}
+              </h3>
+            </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Description</th>
+                  <th>Qty.</th>
+                  <th>Price</th>
+                  <th>Subtotal</th>
+                </tr>
+              </thead>
+              <tr
+                v-for="lineItem in lineItems"
+                :key="`index_${lineItem.product.id}`"
+              >
+                <td>{{ lineItem.product.name }}</td>
+                <td>{{ lineItem.product.description }}</td>
+                <td>{{ lineItem.quantity }}</td>
+                <td>{{ lineItem.product.price }}</td>
+                <td>
+                  {{ price(lineItem.product.price * lineItem.quantity) }}
+                </td>
+              </tr>
+              <tr>
+                <th colspan="4"></th>
+                <th>Grand Total</th>
+              </tr>
+              <tfoot>
+                <tr>
+                  <td colspan="4" class="due">Balance due upon receipt:</td>
+                  <td class="price-final">{{ price(runningTotal) }}</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
     <hr />
-
     <div class="invoice-steps-actions">
         <admin-button @button:click="prev" :disabled="!canGoPrev">Previous</admin-button>
         <admin-button @button:click="next" :disabled="!canGoNext">Next</admin-button>
@@ -87,6 +158,8 @@ import { ICustomer } from '../types/Customer';
 import { IInvoice, ILineItem } from '../types/Invoice';
 import { IProductInventory } from '../types/Product';
 import filters from '../helpers/filters';
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas"
 
 const customerService = new CustomerService();
 const inventoryService = new InventoryService();
@@ -109,7 +182,8 @@ export default class CreateInvoice extends Vue {
     lineItems: ILineItem[] =[];
     newItem: ILineItem = {product: undefined, quantity: 0};
 
-     price = filters.euPriceFilter
+     price = filters.usdPriceFilter
+     date = filters.humanizeDate
 
     addLineItem(){
         let newItem: ILineItem={
@@ -117,11 +191,11 @@ export default class CreateInvoice extends Vue {
             quantity: parseInt(this.newItem.quantity.toString())
         };
 
-        let existingItems = this.lineItems.map(item => item.product?.id);
+        let existingItems = this.lineItems.map(item => item.product.id);
 
-        if(existingItems.includes(newItem.product?.id)){
+        if(existingItems.includes(newItem.product.id)){
             let lineItem = this.lineItems.find(
-                item => item.product?.id === newItem.product?.id
+                item => item.product.id === newItem.product.id
             );
             
             let currentQuantity = Number(lineItem?.quantity);
@@ -163,6 +237,32 @@ export default class CreateInvoice extends Vue {
     get runningTotal(){
         return this.lineItems
                     .reduce((a, b) => a + (b['product']['price'] * b['quantity']), 0)
+    }
+    async submitInvoice(): Promise<void> {
+        this.invoice ={
+            customerId: this.selectedCustomerId,
+            lineItems: this.lineItems,
+            createdOn: new Date(),
+            updatedOn: new Date()
+        };
+
+        await invoiceService.makeNewInvoice(this.invoice);
+
+        this.downloadPdf();
+        await this.$router.push("/orders");
+    }
+
+    downloadPdf(){
+        let pdf = new jsPDF("p", "pt", "a4", true);
+        let invoice = document.getElementById('invoice');
+        let width = this.$refs.invoice.clientWidth;
+        let height = this.$refs.invoice.clientHeight;
+
+        html2canvas(invoice).then(canvas => {
+            let image = canvas.toDataURL('image/png');
+            pdf.addImage(image, 'PNG', 0, 0, width * 0.55, height * 0.55);
+            pdf.save('invoice');
+        });
     }
 
     prev():void{

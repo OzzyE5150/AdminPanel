@@ -2,7 +2,8 @@
   <div class="btn-link">
       <button 
           @click="onClick" 
-          :class="['admin-button', {'full-width' : isFullWidth}]"
+          :disabled="disabled"
+          :class="['admin-button']"
           type="button"
           >
           <slot></slot>
@@ -22,7 +23,7 @@ export default class AdminButton extends Vue {
     
 
     @Prop({required: false, type: Boolean, default: false})
-    isFullWidth?: boolean;
+    disabled?: boolean;
 
     onClick(){
         this.$emit('button:click');

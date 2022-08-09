@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { IInvoice } from '@/types/Invoice';
 
 export default class InvoiceService {
@@ -8,7 +8,10 @@ export default class InvoiceService {
     let now = new Date();
     invoice.createdOn = now;
     invoice.updatedOn = now;
-    let result: any = await axios.post(`${this.API_URL}/invoice/`,invoice);
-    return result.data;
+    let result: any = await axios.post(`${this.API_URL}/invoice/`, invoice);
+   try{
+      return result.data;
+   }catch(err){ console.log(`Error: ${(err as AxiosError)?.response?.data}`); }
+    
  }
 }
