@@ -169,6 +169,10 @@ const invoiceService = new InvoiceService();
     components: { AdminButton }
 })
 export default class CreateInvoice extends Vue {
+  declare $refs:{
+  invoice:HTMLElement
+}
+
     invoiceStep = 1;
     invoice: IInvoice = {
         createdOn: new Date(),
