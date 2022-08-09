@@ -1,7 +1,7 @@
 <template>
 <div class="side-menu-container">
   <router-link to="/">
-  <img 
+  <img  class="imgLogo"
     id="imgLogo" 
     alt="Admin Panel logo" 
     src="../assets/images/logo.png"/>
@@ -75,6 +75,16 @@ export default class SideMenu extends Vue {
 
 #imgLogo {
   width: 100%;
+}
+.imgLogo{
+
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform .5s;
+}
+.imgLogo:hover{
+  transform: translateZ(10px)
+  rotateX(20deg) rotateY(30deg);
 }
 h1{
   font-size: 1.2rem;
