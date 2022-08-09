@@ -36,6 +36,11 @@
           </td>
         </tr>
     </table>
+    <new-customer-modal
+        @close="closeModal"
+        @save:customer="saveNewCustomer"
+        v-if="isNewCustomerModalVisible"
+    />
 </div>
   
 </template>
@@ -46,11 +51,12 @@ import AdminButton from '../components/AdminButton.vue';
 import {ICustomer, ICustomerAddress} from "@/types/Customer"
 import {CustomerService} from '@/services/customer-service';
 import moment from 'moment';
+import NewCustomerModal from '@/components/modals/NewCustomerModal.vue'
 
 const customerService = new CustomerService();
 
 @Options({
-    components: { AdminButton }
+    components: { AdminButton, NewCustomerModal }
 })
 
 export default class Customers extends Vue {
@@ -62,6 +68,11 @@ export default class Customers extends Vue {
     customers: ICustomer[] = [];
     isNewCustomerModalVisible: boolean = false;
 
+    async saveNewCustomer(customer: ICustomer){
+     await customerService.addCustomer(customer);
+    this.isNewCustomerModalVisible = false;
+    await this.initialize();
+  }
     async deleteCustomer(id: number){
         await customerService.deleteCustomer(id);
         await this.initialize();
