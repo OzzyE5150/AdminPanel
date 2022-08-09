@@ -3,6 +3,7 @@
     <h1 id="ordersTitle">
         Sales Orders
     </h1>
+    <hr />
     <table id="sales-orders" class="table" v-if="orders.length">
         <thead>
             <tr>
@@ -12,24 +13,24 @@
                 <th>Order Status</th>
                 <th>Mark Complete</th>
             </tr>
-             <tr v-for="order in orders" :key="order.id">
+             <tr v-for="lineItem in orders" :key="lineItem.id">
                 <td>
-                 {{ order.customer.id }}
+                 {{ lineItem.customer.id }}
                 </td>
                 <td>
-                 {{ order.id }}
+                 {{ lineItem.id }}
                 </td>
                 <td>
-                 {{ price(getTotal(order)) }}
+                 {{ price(getTotal(lineItem)) }}
                 </td>
-                <td :class="{green : order.isPaid}">
-                    {{ getStatus(order.isPaid )}}
+                <td :class="{green : lineItem.isPaid}">
+                    {{ getStatus(lineItem.isPaid )}}
                 </td>
                 <td>
                     <div
-                        i-if="!order.isPaid"
-                        class="lni lni-checkmark-circle order-complete"
-                        @click="markComplete(order.id)"
+                        v-if="!lineItem.isPaid"
+                        class="lni lni-checkmark-circle order-complete green"
+                        @click="markComplete(lineItem.id)"
                     >
                     </div>
                 </td>
@@ -56,8 +57,8 @@ export default class Orders extends Vue {
 
     orders: ISalesOrder[] =[];
 
-    getTotal(order: ISalesOrder){
-        return order.salesOrderItems.reduce((a, b) => a + (b['product']['price'] * b['quantity']), 0);
+    getTotal(lineItem: ISalesOrder){
+        return lineItem.salesOrderItems.reduce((a, b) => a + (b['product']['price'] * b['quantity']), 0);
     }
     getStatus(isPaid: boolean){
         return isPaid ? "Paid in Full" : "Unpaid";
@@ -78,5 +79,14 @@ export default class Orders extends Vue {
 </script>
 
 <style scoped lang="scss">
+@import "src/scss/global.scss";
+.green {
+  font-weight: bold;
+  color: $admin-green;
+}
 
+.order-complete {
+  cursor: pointer;
+  text-align: center;
+}
 </style>
