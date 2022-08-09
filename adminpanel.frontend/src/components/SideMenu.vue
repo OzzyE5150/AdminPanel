@@ -24,7 +24,7 @@
 <admin-button 
   id="menuInvoice"
   is-full-width
-  @button:click="goToRoute('/invoice/new')"
+  @button:click="goToRoute('/invoice')"
   >
     New Invoice
   </admin-button>
