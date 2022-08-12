@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "strict": true, "strictNullChecks": false, "noImplicitAny": false,
+    "strict": true, "strictNullChecks": false, "noImplicitAny": false, 
     "jsx": "preserve",
     "moduleResolution": "node",
     "experimentalDecorators": true,

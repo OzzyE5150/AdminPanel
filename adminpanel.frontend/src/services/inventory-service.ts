@@ -21,7 +21,8 @@ export class InventoryService {
     }
 
     public async getSnapshotHistory(): Promise<IInventoryTimeline>{
-        let result: any = await axios.get(`${this.API_URL}/inventory/snapshot`);
-        return result.data;
+        console.log("getSnapshotHistory", this.API_URL, "/inventory/snapshot");
+        const { data } = await axios.get(`${this.API_URL}/inventory/snapshot`);
+        return data;
     }
 }

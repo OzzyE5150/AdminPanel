@@ -31,12 +31,10 @@ namespace AdminPanel.Services.Inventory
             var snapshot = new ProductInventorySnapshot
             {
                 SnapshotTime = DateTime.UtcNow,
-                Id = inventory.Id,
                 Product = inventory.Product,
                 QuantityOnHand = inventory.QuantityOnHand
             };
-            _db.Update(snapshot);
-            _db.SaveChanges();
+            _db.Add(snapshot);
         }
 
         /// <summary>
